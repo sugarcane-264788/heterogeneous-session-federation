@@ -8,6 +8,26 @@
 - `README.md` 内嵌一张与 `docs/工作原理.md` 同源的 Mermaid 全貌图。
 - 跨厂商实测：在 DSH 之外再跑一套（Claude Code／Codex 之一），把「换 harness」从设计意图变成实测结论。
 
+## [1.0.4] - 2026-11-08
+
+第四轮冷读（同一判法、只给 v1.0.3 解压副本）确认 v1.0.3 的三条阻断与三条「会骗人」已清零，另提 4 处摩擦；同时按「L3 要能被别人直接装用、能被开发者照抄、且不含作者机器信息」重打三件插件包。
+
+### Changed
+
+- **L3 插件包脱敏**：`plugins/` 三件 tgz 重打，不含作者机器的绝对路径、用户名、真会话 id——`dsh-kbhub` 出厂是 `__KBHUB_SERVER__`／`__PYTHON__`／`__KBHUB_AW__` 占位符（装前必须跑 `install.py`）；`dsh-session-mesh` 未设 `DSH_MESH_MACHINE` 时把账本落在 `~/.dsh-mesh/`；两份插件 README 里的本机路径全部换成 `$DSH_HOME`／`$DSH_MESH_MACHINE` 口径；删除只对作者有意义的内部报告与测试脚本。
+- 版本号统一 `v1.0.4`；README、两份 docs、插件表与 `CHANGELOG` 对齐。
+
+### Fixed
+
+- `dsh-kbhub` 的 `install.py --check` 之前只校验 `--aw` 下有 `协作库/`，不校验 `工具/` ⇒ 只有「半个工作区」时也报「库根 已就绪」，装上去工具静默不可用（假绿灯）。现在 `工具/` 缺失直接 `rc=1` 并给出 WARN。
+- `plugins/mesh.py` 文档串与用例里的示例命令仍写 `python 工具\mesh\mesh.py`（包里是 `plugins/mesh.py`）；`MACHINE`／`DSH_HOME` 回退仍写死作者机器路径 ⇒ 全部改为环境变量与 `~/.dsh-mesh/` 口径。
+- `plugins/README.md` 一处自相矛盾（既说「`mesh.py` 随包附带」又说「不在这个发布包里」）⇒ 改为「不在 tgz 里、但在这个发布包里」，并补前提「需要 DSH 宿主在跑且插件已加载」。
+- `docs/使用指南.md` 第 8 步的「无宿主降级判法」偏松（造占位文件就能宣布通过）⇒ 改成三条必须做的真动作（建一张真卡、真投一封并 digest、开工语里点名的三样必须是你写过内容的真文件）。
+
+### Added
+
+- `plugins/_sanitize_check.py`：发布包脱敏自检（盘符绝对路径／用户名／会话 id 三条规则），干净 `rc=0`、有命中 `rc=3` 并列出 `文件:行`。文档里若要用假会话 id 演示格式，写进脚本的 `PLACEHOLDER_IDS` 白名单（当前 `1a2b3c4d`）。
+
 ## [1.0.3] - 2026-11-08
 
 第三轮冷读（同一判法、只给解压副本）抓到 3 条阻断、3 条「看起来对但会骗人」、5 处口径不一致，全部修掉。

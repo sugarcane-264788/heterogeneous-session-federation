@@ -6,9 +6,9 @@
 set -u
 
 KA="<卡名，例如 2026-10-23-M19-P2三件>"
-DIR_K="<卡所在目录，例如 D:/USTB/AI-Workspace/协作库/40-协作/_计划卡>"
-TOOL="<工具目录，例如 D:/USTB/AI-Workspace/工具>"
-KB="<库根，例如 D:/USTB/AI-Workspace/协作库>"
+DIR_K="<卡所在目录，例如 <库根>/40-协作/_计划卡>"
+TOOL="<工具目录，例如 <库根>/../工具>"
+KB="<库根，例如 <工作区>/协作库>"
 BOX="<你的箱，例如 kb>"
 PY=python
 

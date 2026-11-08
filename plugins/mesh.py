@@ -9,12 +9,12 @@ token 由插件在加载时写到 `40-协作\_machine\mesh-token.txt`。这个�
 让**任何**会话（含受限会话、含派出去的子代理）都能用一条命令发消息。
 
 用法：
-    python 工具\\mesh\\mesh.py status
-    python 工具\\mesh\\mesh.py journal -n 8
-    python 工具\\mesh\\mesh.py send --to session-xxxx [--mode queue|interrupt|passive] ^
+    python plugins/mesh.py status
+    python plugins/mesh.py journal -n 8
+    python plugins/mesh.py send --to session-xxxx [--mode queue|interrupt|passive] ^
         --from <发送方> [--urgent] [--text "……"]
-    echo "正文" | python 工具\\mesh\\mesh.py send --to session-xxxx
-    python 工具\\mesh\\mesh.py send --to session-xxxx --text "……" --dry-run
+    echo "正文" | python plugins/mesh.py send --to session-xxxx
+    python plugins/mesh.py send --to session-xxxx --text "……" --dry-run
 
 退出码：0 成功／2 参数或环境问题（找不到 token、找不到宿主）／3 宿主拒绝／4 网络失败。
 """
@@ -30,10 +30,11 @@ import time
 import urllib.error
 import urllib.request
 
-MACHINE = r'D:\USTB\AI-Workspace\协作库\40-协作\_machine'
+MACHINE = os.environ.get('DSH_MESH_MACHINE') or os.path.join(
+    os.path.expanduser('~'), '.dsh-mesh', 'machine')
 # token 不再放在协作库（会随备份走）：插件写在 DSH 自己的目录，这里先看新位置，
 # 再看旧位置兜底，最后才认环境变量 DSH_MESH_TOKEN_FILE。
-DSH_HOME = os.environ.get('DSH_HOME') or (r'D:\DSH' if os.path.isdir(r'D:\DSH') else '')
+DSH_HOME = os.environ.get('DSH_HOME') or ''
 TOKEN_FILE = os.environ.get('DSH_MESH_TOKEN_FILE') or (
     os.path.join(DSH_HOME, 'mesh', 'mesh-token.txt') if DSH_HOME else os.path.join(MACHINE, 'mesh-token.txt')
 )
@@ -212,7 +213,7 @@ def cmd_send(args):
     sender = (args.from_ or '').strip()
     if not sender:
         die(2, '[参数] 缺 --from：本机没有可自动推断的会话身份，请显式写是谁发的（一般用名册「角色」列的名字）。\n'
-               '  可复制：python 工具\\mesh\\mesh.py send --from 主对话 --to <session-id> --text "……"')
+               '  可复制：python plugins/mesh.py send --from 主对话 --to <session-id> --text "……"')
     if len(sender) > 60:
         die(2, '[参数] --from 太长（%d 字符，上限 60）' % len(sender))
     base, data = discover()
