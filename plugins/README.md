@@ -6,7 +6,7 @@
 
 | 包名 | 版本 | 字节 | sha256 | 作用 |
 |---|---|---|---|---|
-| `dsh-kbhub` | 0.0.3 | 10,223 | `0ab5fb6b3371cac3886d771fec87d725711177827ed294d2d46011c81e167a25` | stdio MCP 服务，工具名 `kbhub_*`：读库、列收件箱、跑自检、写探针 |
+| `dsh-kbhub` | 0.0.3 | 10,668 | `a63ded55d7a0d9e0f8a443f49fa109026b91047ae97a9d63f32712d2496af3ef` | stdio MCP 服务，工具名 `kbhub_*`：读库、列收件箱、跑自检、写探针 |
 | `dsh-session-mesh` | 0.0.2 | 40,731 | `cd496929bd3e3f2edc644332ccf7f3bdac9b712b205d32a970efda651e953192` | 把消息投进对方信箱并叫醒；带侧栏自愈 |
 | `dsh-session-auto-refresh` | 0.0.2 | 6,995 | `cfba88d269c7f86c2059e4c40229d34b7713e818fb13f6f0df1b7bcab31ac2ba` | 侧栏缺会话时重载一次 |
 
@@ -29,7 +29,7 @@ python install.py --python <你的 python.exe> --aw <你的 AI-Workspace 根>
 python install.py --check          # 期望：两处都就绪
 ```
 
-`--aw` 指的那个目录下应同时有 `协作库/` 与 `工具/`（服务靠它定位库）；侦测不到就显式给。装完重启宿主，`dsh --help` 之外再用一句 `kbhub_*` 工具调用验一次「工具真的出现了」。
+`--aw` 指的那个目录下应同时有 `协作库/` 与 `工具/kb/kb_check.py`（服务靠它定位库与自检脚本）；**发布包里不含 `工具/`**，要从完整库带一份，或者至少放一个 `工具/kb/kb_check.py`；侦测不到就显式给。`--check` 现在三项一起查（server／库根／工具目录），缺哪项直接 rc=1。装完重启宿主，`dsh --help` 之外再用一句 `kbhub_*` 工具调用验一次「工具真的出现了」。
 
 ## 命令行投递：`plugins/mesh.py`
 
@@ -72,11 +72,21 @@ dsh plugin --profile <profile> add ./plugins/dsh-session-mesh-0.0.2.tgz
 三件 tgz 里不含作者机器的绝对路径、用户名、会话 id：`dsh-kbhub` 出厂是 `__KBHUB_SERVER__`／`__PYTHON__`／`__KBHUB_AW__` 占位符；`dsh-session-mesh` 在没设 `DSH_MESH_MACHINE` 时把账本落在 `~/.dsh-mesh/`（不指向任何人的盘）。想验证，跑：
 
 ```bash
-python plugins/_sanitize_check.py     # 扫描整个发布包，命中作者信息即非零退出
+python plugins/_sanitize_check.py     # 扫描整个发布包（含 .tgz 内部），命中作者信息即非零退出
 ```
 
-## 已知限制（v1.0.4 如实标注）
+## 箱目录名可以不一样（`dsh-kbhub`）
 
-- 三件 tgz 的内部脚本（`kbhub_server.py`、`mesh.py` 的调用方、配置里的默认目录）是在作者机上写成的，含写死的绝对路径与目录约定；换机器要按 `docs/使用指南.md` §9 的隔离清单改配置。
+参考实现把英文键映射成中文目录名（`main`→`主对话`、`kb`→`协作库维护` …）。别人的库如果直接用英文键做目录名，不用改代码：在 `kbhub_server.py` 同目录放一个 `box-map.json`，或设环境变量 `KBHUB_BOX_MAP`（JSON 字符串），例如：
+
+```json
+{"main": "inbox", "kb": "kb-box", "email": "mail"}
+```
+
+没配就用默认映射；配了只覆盖你写的键，顺序里没提到的键仍排在后面。
+
+## 已知限制（v1.0.5 如实标注）
+
+- **装完不等于能用**：`dsh-kbhub` 必须跑过 `install.py` 且 `--check` 为 0（它连 `工具/` 一起查）；另两件只解决「叫醒」与「侧栏」，叫醒的节流参数、权限档、profile 的 bundle 列表仍要人按 `docs/使用指南.md` §9 配。
 - `plugins/mesh.py` 是随包附带的命令行脚本，**不在 tgz 里**但在这个发布包里（tgz 只是插件包）。它需要 DSH 宿主在跑且插件已加载（token 由插件写出）；没有宿主时只能做参数级检查（`--help` 与缺 token 时的退出码 2）。
 - 三件插件只保证在 DSH `0.2.2-rc.1` 上实测过；其他宿主没有对应实现。
