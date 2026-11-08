@@ -8,6 +8,24 @@
 - `README.md` 内嵌一张与 `docs/工作原理.md` 同源的 Mermaid 全貌图。
 - 跨厂商实测：在 DSH 之外再跑一套（Claude Code／Codex 之一），把「换 harness」从设计意图变成实测结论。
 
+## [1.0.11] - 2026-11-08
+
+来源：第一次**在别人的环境里**跑（自建 Windows 11 虚拟机：无 DSH、无 bash、无 git、无 `sha256sum`、非管理员）。三件脚本都跑通了，但暴露两处「文档以为你知道」的坑。
+
+### Fixed
+
+- `README.md` 与 `docs/使用指南.md` 补「**先确认 `python` 是真的**」：干净 Windows 上 `python` 常是微软商店的占位存根（打印 `Python was not found; run without arguments to install from the Microsoft Store…`，`where python` 指向 `WindowsApps\python.exe`），会让人误判成「脚本坏了」。补了判据（`python --version` 要打出真版本号）与两种装法（python.org、`winget install -e --id Python.Python.3.12`）。
+- `starter/env_check.py` 的 WARN 结尾拆成两种成因：「没装 bash」与「受限档位（0700/temp 失败）」——真机上是两种处置，原文案混成一句。
+
+### Verified
+
+- 干净虚拟机（Windows 11 `10.0.26300.9457`，BIOS 固件，本地帐户）：`mailbox_min.py --selftest` → `selftest=PASS（依次未读：2/2/3/0，a 箱信数 0）`（与 `docs/assets/selftest.txt` 逐字一致；同秒三封信正确落到 `…-162816/162817/162818`）；`env_check.py` → `L0: 4 PASS / 2 WARN / 0 FAIL / 3 INFO`；`profile_backup.py selftest` → `[PASS]`。
+- 同一轮确认：L0 通过（WARN 级）时，L1/L2 的 python-only 路线在这台机器上确实能走完。
+
+### Changed
+
+- 三份文档版本号 → v1.0.11。
+
 ## [1.0.10] - 2026-11-08
 
 ### Added

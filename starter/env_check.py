@@ -118,8 +118,11 @@ def main(argv):
         print("L0 = FAIL: even the python-only route is blocked. Fix the FAIL lines first.")
         return 2
     if warns:
-        print("L0 = WARN: python-only route (L1/L2 minimal) works; bash-heavy steps need a writable, "
-              "non-restricted session (e.g. danger-full-access).")
+        print("L0 = WARN: python-only route (L1/L2 minimal) works.")
+        print("         Two different causes, two different fixes:")
+        print("         - bash missing  => install Git Bash / WSL if you want the bash steps (Windows 上装 Git Bash);")
+        print("         - bash present but 0700/temp failed => you are in a restricted sandbox, not a broken machine:")
+        print("           either keep to the python-only route, or move the session to a writable profile (e.g. danger-full-access).")
         return 0
     print("L0 = PASS: bash + python routes both look usable on this machine.")
     return 0
