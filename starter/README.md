@@ -8,7 +8,7 @@
 
 | 文件 | 干什么 |
 |---|---|
-| `mailbox_min.py` | 80 行信箱：写信、数未读、读信、推进游标；带 `--selftest` |
+| `mailbox_min.py` | 约 150 行信箱：写信、数未读、读信、归档、推游标（`--as` 私有游标）；带 `--selftest` |
 | `card-template.md` | 改动前的计划卡模板（含 `- 文件：` 清单与 verify 块） |
 | `boot-template.md` | 新会话开工语（认自己→三分钟读完→拿任务） |
 | `closeout.sh` | 收尾七连的空壳，每步注释写着该填什么 |

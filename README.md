@@ -4,7 +4,7 @@
 
 > 一组互不相同的会话，在不假定环境可信的前提下，用联邦的方式协作：**各自自治，共同结算**。
 
-- **版本**：v1.0.5（2026-11-08；四轮冷读复查的缺陷都已修，见 `CHANGELOG.md`）
+- **版本**：v1.0.6（2026-11-08；换宿主环境的冷读也过了一轮，见 `CHANGELOG.md`）
 - **as-of**：2026-11-08 10:40（本机实测；文中每个数都标了取数方式，凡未重测的标了旧日期）
 - **构成**：`README.md`（本页）／`docs/工作原理.md`／`docs/使用指南.md`／`starter/`（零依赖最小实现）／`skills/`（七个工作法全文）／`plugins/`（三件自研插件 tgz ＋ 命令行 `mesh.py`）
 
@@ -34,6 +34,8 @@
 一句话：**它是给「一群不一样、还会一个个死掉的会话」用的协作制度，不是给「一个很聪明的 agent」用的框架。**
 
 **运行前提**：本文命令是 bash 语法，路径示例里的盘符写法只为 Windows 读者；Windows 上用 Git Bash 或 WSL（PowerShell 里 `sha256sum`、`stat -c`、`{a,b}` 展开都不成立），macOS／Linux 把盘符换成 `/`。
+
+**宿主档位**：在 DSH 这类带沙箱的宿主里，**默认档位下 bash 根本起不来**（工具报 `SANDBOX_UNSUPPORTED`），`python` 命令也要临时目录可写。要么把会话开到 `danger-full-access` 再照本文走，要么只用 `python starter/mailbox_min.py …` 这一类单进程命令先验证机制——两条路的差别写在 `docs/使用指南.md` 的运行前提里。
 
 ## 这不是什么
 
@@ -334,7 +336,7 @@ selftest=PASS（依次未读：2/2/3/0，a 箱信数 0）
 | [`README.md`](README.md) | 本页：定位、思想、现状、更新计划、边界 |
 | [`docs/工作原理.md`](docs/工作原理.md) | 机制：七个文件面怎么咬合、一次协作的生命周期、故障矩阵 |
 | [`docs/使用指南.md`](docs/使用指南.md) | 上手：L1／L2／L3 三条路、从零搭起来的八步、常见故障 |
-| [`starter/`](starter/) | 零依赖最小实现：信箱 80 行＋卡模板＋接手模板＋收尾脚本 |
+| [`starter/`](starter/) | 零依赖最小实现：信箱约 150 行＋卡模板＋接手模板＋收尾脚本 |
 | [`plugins/`](plugins/) | 三件自研插件（`dsh-kbhub`／`dsh-session-mesh`／`dsh-session-auto-refresh`）tgz＋名称与 sha256 清单＋安装前提；外加命令行投递 `mesh.py` |
 | [`skills/`](skills/) | 七个工作法的全文（`SKILL.md`），L1 那七条就是它们 |
 | [`docs/assets/`](docs/assets/) | 正文里引用的实跑输出留档（如 `selftest.txt`） |
