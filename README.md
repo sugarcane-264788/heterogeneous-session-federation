@@ -4,7 +4,7 @@
 
 > 一组互不相同的会话，在不假定环境可信的前提下，用联邦的方式协作：**各自自治，共同结算**。
 
-- **版本**：v1.0.11（2026-11-08；回滚包成了动 L3 的第一道闸；干净虚拟机上实跑过一轮，见 `CHANGELOG.md`）
+- **版本**：v1.0.12（2026-11-08；在干净的 Windows 虚拟机上由「没看过这个包的 DSH」自己装过一轮，按它报的问题修了 8 处文档与脚本，见 `CHANGELOG.md`）
 - **as-of**：2026-11-08 10:40（本机实测；文中每个数都标了取数方式，凡未重测的标了旧日期）
 - **构成**：`README.md`（本页）／`docs/工作原理.md`／`docs/使用指南.md`／`starter/`（零依赖最小实现）／`skills/`（七个工作法全文）／`plugins/`（三件自研插件 tgz ＋ 命令行 `mesh.py`）
 
@@ -32,6 +32,8 @@
 4. **让它在坏掉一部分时还能走**——事件通路可以坏，文件通路不能丢。
 
 一句话：**它是给「一群不一样、还会一个个死掉的会话」用的协作制度，不是给「一个很聪明的 agent」用的框架。**
+
+**先选对工作目录**：在带沙箱的宿主里，把工作目录选在**用户目录内**（例如默认工作区、`<用户目录>\…`）通常直接可写；选在盘符根下自己新建的目录（如 `<盘>:\lab`）时，沙箱给这个目录授写权限可能失败，报 `Error: SetNamedSecurityInfoW failed (Win32 5): grantWrite(<目录>)`——此时**该会话里任何 shell 都起不来**，而文件读写工具还是好的（「工具能用、shell 不能用」）。真要用根下目录，先在普通 shell 里 `icacls <目录> /grant "%USERNAME%:(OI)(CI)F"` 再开会话；不想碰权限就用默认工作区。
 
 **先确认 `python` 是真的**：一台干净的 Windows 上，`python` 这个名字往往已经存在，但它是**微软商店的占位存根**——运行会打印 `Python was not found; run without arguments to install from the Microsoft Store…`，`where python` 指向 `WindowsApps\python.exe`。那不是 Python，脚本跑不起来。要跑本包的最小件需要 **Python 3.8+**：从 python.org 装（勾 “Add python.exe to PATH”），或 `winget install -e --id Python.Python.3.12`；装完用 `python --version` 确认打印的是版本号而不是上面那句提示。
 

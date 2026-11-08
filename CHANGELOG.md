@@ -8,6 +8,21 @@
 - `README.md` 内嵌一张与 `docs/工作原理.md` 同源的 Mermaid 全貌图。
 - 跨厂商实测：在 DSH 之外再跑一套（Claude Code／Codex 之一），把「换 harness」从设计意图变成实测结论。
 
+## [1.0.12] - 2026-11-08
+
+### Fixed
+- `starter/env_check.py`：结尾提示里混进了一句中文（与「输出全 ASCII」自相矛盾），改回英文；并澄清「全 ASCII」指的是**打印输出**，源码注释仍是中文。
+- `docs/使用指南.md`・`docs/工作原理.md`：会话 id「只写前 8 位」的说法会把人引到公共前缀 `session-` 上（等于没写），改成「`session-` 后面那 8 个字符加省略号」。
+- `docs/使用指南.md` 第 7 步的死链单行命令：反引号里的**命令片段**（如 `Get-Content 名册.md`）会被当成路径误报，加 `grep -v '[[:space:]]'` 过滤并写进验收说明。
+- `docs/使用指南.md`：补 Git Bash 的装法（`winget install -e --id Git.Git`），原文只说「请用 Git Bash 或 WSL」。
+- `docs/使用指南.md`：`profile_backup.py save --home "$DSH_HOME"` 前先显式导出 `DSH_HOME`（裸用会得到空串）。
+- `docs/工作原理.md`：把写死的 profile 名 `desktop` 改成 `<profile>` 占位符。
+- `skills/multi-session-workspace/SKILL.md`：标明 outbox／sweep 是**完整库**能力，随包的 `starter/mailbox_min.py` 没有。
+- `skills/session-handoff/SKILL.md`：自检项数 `13/13` → `14/14`（`kb_check` 早已 14 项）。
+
+### Added
+- `README.md`・`docs/使用指南.md`：新增「**先选对工作目录**」——换环境实测：工作目录选在盘符根下自建目录时，沙箱授写权限失败会报 `SetNamedSecurityInfoW failed (Win32 5): grantWrite(...)`，之后该会话里**任何 shell 都起不来**、而文件工具仍可用；给了两条处置（换默认工作区／`icacls` 授权）。
+
 ## [1.0.11] - 2026-11-08
 
 来源：第一次**在别人的环境里**跑（自建 Windows 11 虚拟机：无 DSH、无 bash、无 git、无 `sha256sum`、非管理员）。三件脚本都跑通了，但暴露两处「文档以为你知道」的坑。

@@ -45,7 +45,7 @@ AI-Workspace/协作库/
 ## 信箱协议
 
 - 信封：`<YYYYmmdd-HHMMSS>-from-<发件人ascii>.md`。**文件名不用中文**（排序、游标比较、跨平台复制都会出怪问题）。
-- 兜底：受限档位发不出时落 `%TEMP%\dsh-mailbox\outbox\`，`send` 打印完整路径；`digest` 时自动 sweep 收到。
+- 兜底：受限档位发不出时，完整库会落 `%TEMP%\dsh-mailbox\outbox\` 并在 `digest` 时自动 sweep 收走；**随包的 `starter/mailbox_min.py` 没有 outbox/sweep**（它只做 send/status/digest/--peek），受限档位下它会直接报错——先按运行前提换到可写档位，别等兜底。
 - 游标：每箱一个文件，内容为最后归档的文件名；**同时兼容** `{"last": "..."}`（别的会话可能写成 JSON）。
 - 读自己的箱 = 收信（归档 + 推进游标）；探别人的箱必须 `--peek`。
 - 正文：三行头（发件人 / 收件人 / 时间）＋正文；需要对方机器处理的报错，在正文里带一行机器码，如 `error_code: EPERM_WRITE`。

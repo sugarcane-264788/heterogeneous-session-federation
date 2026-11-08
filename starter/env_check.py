@@ -5,7 +5,7 @@
     python starter/env_check.py
 
 退出码：0 = 至少 python 单进程路线可用；2 = 连 python 路线都跑不了。
-输出全 ASCII（避开 Windows 控制台中文乱码）。
+**打印输出**全 ASCII（避开 Windows 控制台中文乱码；源码注释仍是中文，不影响输出）。
 
 它只读环境、只建一个临时目录试写；不联网（pypi 那条只是 3 秒 TCP 探测，失败不影响结论）。
 """
@@ -120,7 +120,7 @@ def main(argv):
     if warns:
         print("L0 = WARN: python-only route (L1/L2 minimal) works.")
         print("         Two different causes, two different fixes:")
-        print("         - bash missing  => install Git Bash / WSL if you want the bash steps (Windows 上装 Git Bash);")
+        print("         - bash missing  => install Git Bash or WSL if you want the bash steps;")
         print("         - bash present but 0700/temp failed => you are in a restricted sandbox, not a broken machine:")
         print("           either keep to the python-only route, or move the session to a writable profile (e.g. danger-full-access).")
         return 0
