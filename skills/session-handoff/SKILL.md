@@ -19,7 +19,16 @@ description: 新会话接手：三十秒清单 + 真会话演练，卡住=无才
 - 只是问一个事实（"名册里我 id 是几"）：直接查，别走全套。
 - 库还没建好（连索引/名册都没有）：先搭骨架，再写接手语。
 
-> 发布包读者注意：下面 0.1–0.4 的命令调的是**完整库**的脚本（`..\工具\…`）。只有发布包时，按这个对应关系替换：0.1 → `python starter/mailbox_min.py --selftest`；0.2 → `python starter/mailbox_min.py digest --for <你的箱>`；0.3 → 在你自己的名册 md 里查；0.4 → `docs/原理` 与 `docs/使用指南` 替代 `00-规范\`。规矩本身不用改。
+> 发布包读者注意：下面 0.1–0.4 的命令调的是**完整库**的脚本（`..\工具\…`），照抄会「找不到文件」。只有发布包时，**先 `cd` 到包根**（有 `README.md` 与 `starter/` 那一层），再按这个对应关系替换：
+>
+> | 原文 | 只有发布包时 |
+> |---|---|
+> | `0.1 python ..\工具\kb\kb_check.py` | `python starter/mailbox_min.py --selftest`（只验信箱能跑，不是全库体检） |
+> | `0.2 python ..\工具\mailbox\mailbox.py digest --for <你的箱>` | `python starter/mailbox_min.py --root <你的箱根> digest --for <你的箱>`（**`--root` 必须写在 `digest` 前**，写后面 argparse 直接报 `unrecognized arguments`） |
+> | `0.3 python ..\工具\kb\read_state.py --me …` | 在你自己的名册 md 里查自己那一行 |
+> | `0.4 00-规范\04`、`40-协作\_模板\接手交接.md` | `docs/工作原理.md`、`docs/使用指南.md`（包里没有 `00-规范\` 与 `_模板\`） |
+>
+> 规矩本身不用改。
 
 ## 接手语：照抄能跑（按顺序，每步有"看到什么算正常"）
 

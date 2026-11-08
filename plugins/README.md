@@ -16,6 +16,33 @@
 2. 知道自己的 profile 名（默认 `desktop`；`ls $DSH_HOME/profiles` 能看到）。
 3. **命令必须带 `DSH_HOME`**：不带会装进默认的 `~/.dsh`，等于白装（这是实测踩过的坑，见 `docs/使用指南.md` §7 表末两行）。
 
+## kbhub 装前必须做一步（否则静默缺工具）
+
+`dsh-kbhub` 的 `cordis.patch.yml` 里有一行是**本机绝对路径**（`args` 指向 `kbhub_server.py`、`command` 指向解释器、`env.KBHUB_AW` 指向本机库根）。直接装到别的机器上：MCP 子进程起不来，而补丁里写着 `failOnStartupError: false` ⇒ **插件照常加载、不报错，只是 `mcp__kbhub__*` 整套工具静默消失**，最难查。
+
+装之前，在解开的包目录里跑一次安装器，把两处本机值写进去：
+
+```bash
+cd <解开的包目录>/package          # 里面应有 install.py 与 kbhub_server.py
+python install.py --restore        # 先把 args 退回 __KBHUB_SERVER__ 占位符（tgz 里是绝对路径形态）
+python install.py --python <你的 python.exe> --aw <你的 AI-Workspace 根>
+python install.py --check          # 期望：两处都就绪
+```
+
+`--aw` 指的那个目录下应同时有 `协作库/` 与 `工具/`（服务靠它定位库）；侦测不到就显式给。装完重启宿主，`dsh --help` 之外再用一句 `kbhub_*` 工具调用验一次「工具真的出现了」。
+
+## 命令行投递：`plugins/mesh.py`
+
+`dsh-session-mesh` 插件给的是**会话内**的 `mesh_send`／`mesh_status`／`mesh_inbox` 工具；想在 shell 里投递或看现场（cron、批处理、排障），用随包附带的 `plugins/mesh.py`（纯标准库，与插件同一套协议）：
+
+```bash
+export DSH_HOME=<你的 DSH_HOME>            # 它从 $DSH_HOME/mesh 读 base 与 token
+python plugins/mesh.py status             # clients / holds / passive 队列
+python plugins/mesh.py send --from 我 --mode queue --to <会话 id> < 正文.txt
+```
+
+没有 `DSH_HOME` 时读 `DSH_MESH_BASE_FILE`／`DSH_MESH_TOKEN_FILE` 指定的文件；它只做投递与观测，不参与插件的叫醒逻辑。
+
 ## 装法
 
 ```bash
@@ -39,7 +66,7 @@ dsh plugin --profile <profile> add ./plugins/dsh-session-mesh-0.0.2.tgz
 
 本机开发环境把这三件以链接方式指向源码目录，包名与发布形态一致，区别只在「指向源码」还是「指向 tgz」。同一份代码两种挂法，不需要为了发布改代码。
 
-## 已知限制（v1.0.1 如实标注）
+## 已知限制（v1.0.3 如实标注）
 
 - 三件 tgz 的内部脚本（`kbhub_server.py`、`mesh.py` 的调用方、配置里的默认目录）是在作者机上写成的，含写死的绝对路径与目录约定；换机器要按 `docs/使用指南.md` §9 的隔离清单改配置。
 - `mesh.py`（命令行投递脚本）不在 tgz 里，也不在这个发布包里——tgz 只是插件包。要用命令行投递，先用信箱配合 `starter/mailbox_min.py`；等我们把它单独发布再补。

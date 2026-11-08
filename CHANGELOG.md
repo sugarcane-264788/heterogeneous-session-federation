@@ -8,6 +8,28 @@
 - `README.md` 内嵌一张与 `docs/工作原理.md` 同源的 Mermaid 全貌图。
 - 跨厂商实测：在 DSH 之外再跑一套（Claude Code／Codex 之一），把「换 harness」从设计意图变成实测结论。
 
+## [1.0.3] - 2026-11-08
+
+第三轮冷读（同一判法、只给解压副本）抓到 3 条阻断、3 条「看起来对但会骗人」、5 处口径不一致，全部修掉。
+
+### Fixed
+
+- **丢信（真 bug，v1.0.2 的修法只覆盖了同一发件人）**：两个**不同发件人**在同一秒投进同一箱时，文件名时间戳相同、只能靠发件人名排序；游标一旦推过字典序靠后的那封，靠前那封**永久读不到**（实测：`alice`／`zoe` 同秒，`digest` 推进到 `zoe`，再投 `bob`（同秒）落在 `zoe` 之前，`status` 报「未读 0 / 共 3」）。改成：**该秒内箱里已有任何信就往后挪一秒**，与发件人无关。
+- `docs/使用指南.md` 第 8 步「开新会话演练」需宿主才能做，纯终端环境永远「卡住」；补「前提」与**无宿主时的降级判法**（逐条对照 `boot-template.md` 要的文件、列出缺哪几份）。
+- `skills/session-handoff/SKILL.md` 的替换表给错两处：命令相对**包根**而不是库根（`cd` 到包根再跑）、`docs/原理` 实际叫 `docs/工作原理.md`；0.2 那条补 `--root`，并写明 `--root` 必须写在子命令前。
+- `skills/layered-self-check/SKILL.md`、`skills/human-machine-dual-track/SKILL.md` 里「`kb_check` 全 PASS／`--doctor` PASS」在发布包里不可能发生（没有 `工具/`）；各加包内替代判法与「等脚本补齐再换回机器判据」。
+- `docs/使用指南.md` 关于 `--root` 位置的说法（原写「会被当成信的内容」，实测是 `unrecognized arguments: --root …` 直接退出 2）。
+- 版本号统一 `v1.0.3`（根 README 还停在 v1.0.1、两份 docs 停在 v1.0——上一版 CHANGELOG 声称修了，实际没改）。
+- 「更新计划」表里 `CHANGELOG／贡献指南／安全策略 | 缺` 与事实相反（v1.0.0 起已随包）→ 改成「已有短版，缺流程细节」。
+- 斜杠口径自相矛盾（原理 §约定 写「统一用反斜杠」、全书用正斜杠）→ 统一正斜杠，仅命令行示例保留反斜杠。
+- 名册位置两处说法不一（原理写 `10-主对话/会话名册.md`、指南让建在库根 `名册.md`）→ 原理补「完整库在哪、最小库放哪」。
+- `skills/multi-session-workspace/SKILL.md` 的「四行头（含 `给：`）」与实际实现（三行头＋正文）不符。
+
+### Added
+
+- `plugins/mesh.py`：命令行投递与观测（`status`／`journal`／`send`／`rescan`，纯标准库，读 `$DSH_HOME/mesh`）。之前只有会话内的 MCP 工具，shell、cron、排障都没有入口。
+- `plugins/README.md` 增「kbhub 装前必须做一步」：tgz 里的补丁带本机绝对路径，直接装到别的机器会**静默缺工具**（`failOnStartupError: false`），装前需 `install.py --restore` 再 `--python/--aw` 写本机值。
+
 ## [1.0.2] - 2026-11-08
 
 第二轮冷读复查又抓到一条自己改出来的硬伤，以及三处口径不一致。

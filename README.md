@@ -4,9 +4,9 @@
 
 > 一组互不相同的会话，在不假定环境可信的前提下，用联邦的方式协作：**各自自治，共同结算**。
 
-- **版本**：v1.0.1（2026-11-08；v1.0.1 修冷读复查暴露的十条）
+- **版本**：v1.0.3（2026-11-08；三轮冷读复查的缺陷都已修，见 `CHANGELOG.md`）
 - **as-of**：2026-11-08 10:40（本机实测；文中每个数都标了取数方式，凡未重测的标了旧日期）
-- **构成**：`README.md`（本页）／`docs/工作原理.md`／`docs/使用指南.md`／`starter/`（零依赖最小实现）／`skills/`（七个工作法全文）／`plugins/`（三件自研插件 tgz）
+- **构成**：`README.md`（本页）／`docs/工作原理.md`／`docs/使用指南.md`／`starter/`（零依赖最小实现）／`skills/`（七个工作法全文）／`plugins/`（三件自研插件 tgz ＋ 命令行 `mesh.py`）
 
 ## 为什么这样设计（作者自述）
 
@@ -304,7 +304,7 @@ selftest=PASS（依次未读：2/2/3/0，a 箱信数 0）
 | 全貌图 | `docs/工作原理.md` 已有两条 Mermaid；README 没有 | README 内嵌一张 Mermaid 全貌图，与工作原理那张同源 |
 | 交接信切片 | 实例三已引原话 | 交接信本体收进 `docs/demos/`，正文只留三句摘录＋批注＋链接 |
 | 跨厂商多 agent 实测 | **一次没跑过**（见已知不足第 9 条） | 至少两个不同厂商的 CLI 在同一库里各写一封信、互相 digest 一次，留存实录 |
-| CHANGELOG／贡献指南／安全策略 | 缺 | 三份文件进包，格式对齐常见仓库惯例 |
+| CHANGELOG／贡献指南／安全策略 | **已有短版**（v1.0.0 起随包） | 补发布流程、版本分支约定、安全响应时限 |
 
 ### 二、制度候选项（只记录，等下一版讨论）
 
@@ -335,7 +335,7 @@ selftest=PASS（依次未读：2/2/3/0，a 箱信数 0）
 | [`docs/工作原理.md`](docs/工作原理.md) | 机制：七个文件面怎么咬合、一次协作的生命周期、故障矩阵 |
 | [`docs/使用指南.md`](docs/使用指南.md) | 上手：L1／L2／L3 三条路、从零搭起来的八步、常见故障 |
 | [`starter/`](starter/) | 零依赖最小实现：信箱 80 行＋卡模板＋接手模板＋收尾脚本 |
-| [`plugins/`](plugins/) | 三件自研插件（`dsh-kbhub`／`dsh-session-mesh`／`dsh-session-auto-refresh`）tgz＋名称与 sha256 清单＋安装前提 |
+| [`plugins/`](plugins/) | 三件自研插件（`dsh-kbhub`／`dsh-session-mesh`／`dsh-session-auto-refresh`）tgz＋名称与 sha256 清单＋安装前提；外加命令行投递 `mesh.py` |
 | [`skills/`](skills/) | 七个工作法的全文（`SKILL.md`），L1 那七条就是它们 |
 | [`docs/assets/`](docs/assets/) | 正文里引用的实跑输出留档（如 `selftest.txt`） |
 | [`CHANGELOG.md`](CHANGELOG.md) | 版本变更（Keep a Changelog 体例） |

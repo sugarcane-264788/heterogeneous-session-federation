@@ -59,6 +59,10 @@ def send(root, to, frm, text):
     base = time.time()
     for k in range(0, 3600):
         ts = time.strftime("%Y%m%d-%H%M%S", time.localtime(base + k))
+        # 该秒内只要箱里已有任何信（不限于同一发件人）就往后挪一秒：
+        # 文件名即时间线，读者按字符串比较推进游标；同秒两封会让排在后面的那封永久读不到。
+        if any(f.startswith(ts + "-") for f in os.listdir(d)):
+            continue
         name = "%s-from-%s.md" % (ts, frm)
         p = os.path.join(d, name)
         if os.path.exists(p):
