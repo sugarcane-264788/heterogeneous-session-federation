@@ -8,7 +8,7 @@
 
 | 文件 | 干什么 |
 |---|---|
-| `mailbox_min.py` | 约 150 行信箱：写信、数未读、读信、归档、推游标（`--as` 私有游标）；带 `--selftest` |
+| `mailbox_min.py` | 约 230 行信箱：写信、数未读、读信、归档、推游标（`--as` 私有游标）；带 `--selftest` |
 | `card-template.md` | 改动前的计划卡模板（含 `- 文件：` 清单与 verify 块） |
 | `boot-template.md` | 新会话开工语（认自己→三分钟读完→拿任务） |
 | `closeout.sh` | 收尾七连的空壳，每步注释写着该填什么 |
@@ -16,25 +16,27 @@
 
 ## 顺序（照着敲）
 
+以下命令都在**发布包根目录**（`starter/` 的上一级）执行；若你已经 `cd starter`，把命令里的 `starter/` 前缀去掉。
+
 ```bash
 # 1. 先确认信箱能跑（不碰任何东西，只读）
-python mailbox_min.py --selftest
+python starter/mailbox_min.py --selftest
 # 期望最后一行：selftest=PASS（依次未读：2/2/3/0，a 箱信数 0）
 
 # 2. 建你自己的箱：一个"人"一个箱，别共用
-python mailbox_min.py send --to worker --from boss --text "第一件事：把 X 的版本号核一遍"
-python mailbox_min.py status
+python starter/mailbox_min.py send --to worker --from boss --text "第一件事：把 X 的版本号核一遍"
+python starter/mailbox_min.py status
 # 期望：worker 未读 1 / 共 1（没有信的箱不列出）
 
 # 3. 以 worker 的身份收信（会推进游标）
-python mailbox_min.py digest --for worker
-python mailbox_min.py status
+python starter/mailbox_min.py digest --for worker
+python starter/mailbox_min.py status
 # 期望：worker 未读 0
 
 # 4. 只读地看一眼但不推进游标（演练/审计时用）
-python mailbox_min.py send --to worker --from boss --text "第二件：不要动文件"
-python mailbox_min.py digest --for worker --peek
-python mailbox_min.py status
+python starter/mailbox_min.py send --to worker --from boss --text "第二件：不要动文件"
+python starter/mailbox_min.py digest --for worker --peek
+python starter/mailbox_min.py status
 # 期望：worker 未读 1 / 共 2 —— --peek 不推进游标
 # 注：同一秒连发两封时，后一封的时间戳会往后挪一秒（秒数 +1），顺序仍单调、不覆盖（v1.0.2 修）
 

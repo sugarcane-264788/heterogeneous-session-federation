@@ -8,6 +8,20 @@
 - `README.md` 内嵌一张与 `docs/工作原理.md` 同源的 Mermaid 全貌图。
 - 跨厂商实测：在 DSH 之外再跑一套（Claude Code／Codex 之一），把「换 harness」从设计意图变成实测结论。
 
+## [1.0.8] - 2026-11-08
+
+来源：新增两个「文档自检」工具后对真包做的第一次机器核对（`doc_assert.py` 静态断言 8 类、`doc_probe.py` 把 bash 块真跑）。它们抓出 3 条**文档与实现不符**——全是人读几轮都没看出来的。
+
+### Fixed
+
+- **行数说法过期**：`README.md` 与 `starter/README.md` 说「信箱约 150 行」，实际 `starter/mailbox_min.py` 已 233 行（v1.0.6 加了归档与 `--as`）。两处改成「约 230 行」。
+- **`docs/工作原理.md` §8.1 的命令在 bash 下跑不了**：写的 `python ..\工具\kb\kb_check.py`，bash 把反斜杠当转义符，实际落到 `..工具kbkb_check.py`。改成正斜杠 `../工具/kb/…`，并加一句「Windows 的 cmd／PowerShell 可用反斜杠，本文档统一正斜杠」。
+- **`starter/README.md` 的「顺序」不能复制即跑**：命令写 `python mailbox_min.py …`，但那是假设读者已经 `cd starter`。改成在**发布包根目录**执行、命令写 `python starter/mailbox_min.py …`，并说明 `cd starter` 后要去掉前缀。
+
+### Changed
+
+- `docs/工作原理.md` §8.1 的块首加 `# no-run: 这一块只能在完整库（有 工具/ 的那台机器）里跑`——它验证的是完整库的自检，不是发布包；标了之后，机器探针会按「跳过＋说明」处理，而不是假装失败。
+
 ## [1.0.7] - 2026-11-08
 
 来源：作者定了层级投入策略——**L0（环境测试）、L1、L2 是维护重点；L3 降级为参考实现**，不再投入打磨。

@@ -4,7 +4,7 @@
 
 > 一组互不相同的会话，在不假定环境可信的前提下，用联邦的方式协作：**各自自治，共同结算**。
 
-- **版本**：v1.0.7（2026-11-08；换宿主环境的冷读也过了一轮，见 `CHANGELOG.md`）
+- **版本**：v1.0.8（2026-11-08；换宿主环境的冷读也过了一轮，见 `CHANGELOG.md`）
 - **as-of**：2026-11-08 10:40（本机实测；文中每个数都标了取数方式，凡未重测的标了旧日期）
 - **构成**：`README.md`（本页）／`docs/工作原理.md`／`docs/使用指南.md`／`starter/`（零依赖最小实现）／`skills/`（七个工作法全文）／`plugins/`（三件自研插件 tgz ＋ 命令行 `mesh.py`）
 
@@ -350,7 +350,7 @@ python starter/env_check.py
 | [`README.md`](README.md) | 本页：定位、思想、现状、更新计划、边界 |
 | [`docs/工作原理.md`](docs/工作原理.md) | 机制：七个文件面怎么咬合、一次协作的生命周期、故障矩阵 |
 | [`docs/使用指南.md`](docs/使用指南.md) | 上手：L0 环境自检、L1／L2／L3 四条路、从零搭起来的八步、常见故障 |
-| [`starter/`](starter/) | 零依赖最小实现：信箱约 150 行＋卡模板＋接手模板＋收尾脚本 |
+| [`starter/`](starter/) | 零依赖最小实现：信箱约 230 行＋卡模板＋接手模板＋收尾脚本 |
 | [`plugins/`](plugins/) | 三件自研插件（`dsh-kbhub`／`dsh-session-mesh`／`dsh-session-auto-refresh`）tgz＋名称与 sha256 清单＋安装前提；外加命令行投递 `mesh.py` |
 | [`skills/`](skills/) | 七个工作法的全文（`SKILL.md`），L1 那七条就是它们 |
 | [`docs/assets/`](docs/assets/) | 正文里引用的实跑输出留档（如 `selftest.txt`） |
