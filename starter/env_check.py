@@ -97,7 +97,7 @@ def main(argv):
     check_python()
     check_temp_default()
     check_temp_private()
-    check_tool("bash", "no bash: use the python-only route in docs/using-guide section 6 (host shells like DSH's sandbox may also refuse bash)")
+    check_tool("bash", "no bash: the python-only route still works (see the guide, section 6; host shells may also refuse bash)")
     check_tool("sha256sum", "no sha256sum: use 'python -c \"import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\\'rb\\').read()).hexdigest())\" FILE'")
     check_tool("tar", "no tar: unzip the release with Explorer / python -m zipfile")
     check_network()

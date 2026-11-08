@@ -8,6 +8,31 @@
 - `README.md` 内嵌一张与 `docs/工作原理.md` 同源的 Mermaid 全貌图。
 - 跨厂商实测：在 DSH 之外再跑一套（Claude Code／Codex 之一），把「换 harness」从设计意图变成实测结论。
 
+## [1.0.15] — 2026-11-08
+
+发布包整体体检（只读子代理跑 19 类一致性与可复跑检查）后的修正：8 条严重、11 条轻微。
+
+### Fixed
+
+- `starter/env_check.py` 的 bash 缺失提示指向了不存在的 `docs/using-guide`，改成「见 guide 第 6 节」。
+- `SECURITY.md` 把 `starter/mailbox_min.py` 写成「80 行」，实际约 230 行。
+- `docs/使用指南.md` 的 digest 判据写成了 `status` 里的 `total`／`unread` 字段，并说「包里没有 `已处理/`」——实际输出是「未读 x / 共 y」，`digest` 会建 `已处理/<箱>/` 并搬信；判据改成三条可观察事实。
+- `README.md` 与 `docs/assets/selftest.txt` 自称「原样输出」，实际是旧版末行；按当前脚本重跑后重新生成。
+- `docs/README.md` 说「四份文档」而索引表只有三行、L3 页只在 bullet 里；补上表格行。
+- `README.md` 的「这个发布包里有什么」漏了 `docs/L3-动手前必读.md`。
+- 包根残留上一版 zip（`18-异构会话联邦-v1.0.10.zip`），已删除。
+- `docs/工作原理.md` 的路径约定写「统一正斜杠」但正文八处目录名仍是反斜杠，已统一。
+- `docs/工作原理.md` 与 `starter/profile_backup.py` 把参考实现的 profile 名 `desktop` 当成必填值，改成 `<profile>` 并注明是示例。
+- `plugins/README.md` 指向包内不存在的 `原理`，改成 `docs/工作原理.md` §7.2。
+
+### Changed
+
+- `docs/使用指南.md` 的包内清单补全（此前只列了四个目录，漏了根部的 CHANGELOG／CONTRIBUTING／SECURITY／CODE_OF_CONDUCT／LICENSE／.gitignore）。
+- `starter/README.md` 与 `docs/使用指南.md` 的「收尾七连」统一成 `closeout.sh` 实际的「八段」。
+- `CONTRIBUTING.md` 的「压缩包不进仓库」改成「打包产物不进仓库，`plugins/` 三件 tgz 是发布物本身」。
+- README 与使用指南的规模口径改成「同时在跑十个左右；作者库累计 44 个」。
+- `docs/工作原理.md` 的 `digest --for a --peek` 期望补上 `--root`（默认 `./_minibox` 不存在时会打「没有新消息」）。
+
 ## [1.0.14] - 2026-11-08
 
 第二轮冷读里没修干净的两条（自查发现：5 条修了、1 条只修了一半、1 条没修）。

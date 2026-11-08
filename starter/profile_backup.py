@@ -8,16 +8,16 @@
 用法（在发布包根目录执行）：
 
     # 1) 存回滚包（用你真实的 DSH_HOME／profile 名）
-    python starter/profile_backup.py save --home "$DSH_HOME" --profile desktop --out ./rollback-before-l3
+    python starter/profile_backup.py save --home "$DSH_HOME" --profile <profile> --out ./rollback-before-l3
 
     # 2) 自证：逐文件比哈希（不改盘上任何东西）
     python starter/profile_backup.py verify --dir ./rollback-before-l3
 
     # 3) 演练还原（只打印要做的事，不写盘）——动手前必须跑一次，看输出对不对
-    python starter/profile_backup.py restore --dir ./rollback-before-l3 --home "$DSH_HOME" --profile desktop --dry-run
+    python starter/profile_backup.py restore --dir ./rollback-before-l3 --home "$DSH_HOME" --profile <profile> --dry-run
 
     # 4) 真还原（出事了才用；会把现文件改名成 *.pre-restore-<时间戳> 再写回）
-    python starter/profile_backup.py restore --dir ./rollback-before-l3 --home "$DSH_HOME" --profile desktop
+    python starter/profile_backup.py restore --dir ./rollback-before-l3 --home "$DSH_HOME" --profile <profile>
 
     # 5) 检查脚本本身没毛病（在临时目录里自造一份 profile）
     python starter/profile_backup.py selftest
