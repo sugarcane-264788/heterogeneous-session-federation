@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- README 抬头补上仓库地址（GitHub 公开仓库建立后）。
+
 - `docs/demos/`：三个可复跑的真实协作实录（防丢信／热拔插续跑／拒绝无证据的「已修好」）。
 - `README.md` 内嵌一张与 `docs/工作原理.md` 同源的 Mermaid 全貌图。
 - 跨厂商实测：在 DSH 之外再跑一套（Claude Code／Codex 之一），把「换 harness」从设计意图变成实测结论。
