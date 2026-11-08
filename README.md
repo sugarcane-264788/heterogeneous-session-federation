@@ -327,24 +327,24 @@ selftest=PASS（依次未读：2/2/3/0，a 箱信数 0）
 
 | 文件 | 用途 |
 |---|---|
-| `README.md` | 本页：定位、思想、现状、更新计划、边界 |
-| `docs/工作原理.md` | 机制：七个文件面怎么咬合、一次协作的生命周期、故障矩阵 |
-| `docs/使用指南.md` | 上手：L1／L2／L3 三条路、从零搭起来的八步、常见故障 |
-| `starter\` | 零依赖最小实现：信箱 80 行＋卡模板＋接手模板＋收尾脚本 |
-| `plugins\` | 三件自研插件（`dsh-kbhub`／`dsh-session-mesh`／`dsh-session-auto-refresh`）tgz＋名称与 sha256 清单 |
-| `docs/assets/` | 正文里引用的实跑输出留档（如 `selftest.txt`） |
-| `CHANGELOG.md` | 版本变更（Keep a Changelog 体例） |
-| `CONTRIBUTING.md` | 怎么提改动、验收口径、文档规矩 |
-| `SECURITY.md` | 威胁模型与漏洞报告渠道 |
-| `CODE_OF_CONDUCT.md` | 协作行为底线 |
+| [`README.md`](README.md) | 本页：定位、思想、现状、更新计划、边界 |
+| [`docs/工作原理.md`](docs/工作原理.md) | 机制：七个文件面怎么咬合、一次协作的生命周期、故障矩阵 |
+| [`docs/使用指南.md`](docs/使用指南.md) | 上手：L1／L2／L3 三条路、从零搭起来的八步、常见故障 |
+| [`starter/`](starter/) | 零依赖最小实现：信箱 80 行＋卡模板＋接手模板＋收尾脚本 |
+| [`plugins/`](plugins/) | 三件自研插件（`dsh-kbhub`／`dsh-session-mesh`／`dsh-session-auto-refresh`）tgz＋名称与 sha256 清单 |
+| [`docs/assets/`](docs/assets/) | 正文里引用的实跑输出留档（如 `selftest.txt`） |
+| [`CHANGELOG.md`](CHANGELOG.md) | 版本变更（Keep a Changelog 体例） |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | 怎么提改动、验收口径、文档规矩 |
+| [`SECURITY.md`](SECURITY.md) | 威胁模型与漏洞报告渠道 |
+| [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) | 协作行为底线 |
 
 ## 文档按用途分（Diátaxis）
 
 | 你想 | 读 |
 |---|---|
-| 先跑起来 | 本页＋`starter/` |
-| 学会做某件事 | `docs/使用指南.md` |
-| 理解为什么这么设计 | `docs/工作原理.md` |
+| 先跑起来 | 本页＋[`starter/`](starter/) |
+| 学会做某件事 | [`docs/使用指南.md`](docs/使用指南.md) |
+| 理解为什么这么设计 | [`docs/工作原理.md`](docs/工作原理.md) |
 | 查一个具体约定 | 库内的模板集与协议原文（自建库时一并抄走） |
 
 ## 参照的公开规范
