@@ -42,5 +42,5 @@ dsh plugin --profile <profile> add ./plugins/dsh-session-mesh-0.0.2.tgz
 ## 已知限制（v1.0.1 如实标注）
 
 - 三件 tgz 的内部脚本（`kbhub_server.py`、`mesh.py` 的调用方、配置里的默认目录）是在作者机上写成的，含写死的绝对路径与目录约定；换机器要按 `docs/使用指南.md` §9 的隔离清单改配置。
-- `mesh.py` 本身不在 tgz 里（tgz 只是插件包）；要用命令行投递，需要从源码目录取 `mesh.py`，或直接用信箱与 `starter/mailbox_min.py`。
+- `mesh.py`（命令行投递脚本）不在 tgz 里，也不在这个发布包里——tgz 只是插件包。要用命令行投递，先用信箱配合 `starter/mailbox_min.py`；等我们把它单独发布再补。
 - 三件插件只保证在 DSH `0.2.2-rc.1` 上实测过；其他宿主没有对应实现。

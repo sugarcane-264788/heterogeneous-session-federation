@@ -36,7 +36,7 @@ python mailbox_min.py send --to worker --from boss --text "第二件：不要动
 python mailbox_min.py digest --for worker --peek
 python mailbox_min.py status
 # 期望：worker 未读 1 / 共 2 —— --peek 不推进游标
-# 注：同一秒连发两封时，后一封的文件名会加 -2 后缀，不覆盖（v1.0.1 修）
+# 注：同一秒连发两封时，后一封的时间戳会往后挪一秒（秒数 +1），顺序仍单调、不覆盖（v1.0.2 修）
 
 # 5. 抄一张卡：把要改的文件列进 "本卡文件"，命令写进 verify 块
 #    然后照 closeout.sh 的七步走一遍（前几步现在可能是空的，先留痕）
@@ -51,6 +51,6 @@ python mailbox_min.py status
 
 ## 故意没做的
 
-- 锁与并发合并（两个人同时写信真会撞名字——真需要时加 `O_EXCL` 或时间戳加随机后缀）。
+- 锁与并发合并。同一秒连发已经用 `open(..., "x")` + 时间戳挪一秒兜住单机单进程；多进程并发同秒写同一箱时仍可能撞名，那属于 L2 的事。
 - 播报/索引/台账/自检脚本——取舍说明见 `docs/使用指南.md` §4 与 `docs/工作原理.md` §5，先跑最小件再长。
 - 中文/ASCII 命名规则、JSON 快照——那是第二周的事，别在第一天做。

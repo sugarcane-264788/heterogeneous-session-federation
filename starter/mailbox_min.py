@@ -53,21 +53,24 @@ def unread(root, box):
 def send(root, to, frm, text):
     d = os.path.join(root, "boxes", to)
     os.makedirs(d, exist_ok=True)
-    ts = time.strftime("%Y%m%d-%H%M%S")
-    body = "发件人：%s\n收件人：%s\n时间：%s\n\n%s\n" % (frm, to, ts, text.strip())
-    # 同一秒连发两封会撞名：撞了就加序号，绝不覆盖已存在的信
-    for i in range(1, 1000):
-        name = "%s-from-%s.md" % (ts, frm) if i == 1 else "%s-from-%s-%d.md" % (ts, frm, i)
+    # 文件名即时间线，而读者用字符串比较推进游标（f > cursor）。
+    # 所以同一秒连发时不能加后缀（"-2" 会排在 ".md" 之前，反而被判成旧信），
+    # 只能把时间戳往后挪一秒：名字保持同一形状，顺序也仍然单调。
+    base = time.time()
+    for k in range(0, 3600):
+        ts = time.strftime("%Y%m%d-%H%M%S", time.localtime(base + k))
+        name = "%s-from-%s.md" % (ts, frm)
         p = os.path.join(d, name)
         if os.path.exists(p):
             continue
+        body = "发件人：%s\n收件人：%s\n时间：%s\n\n%s\n" % (frm, to, ts, text.strip())
         try:
             with open(p, "x", encoding="utf-8", newline="\n") as f:
                 f.write(body)
             return name
         except FileExistsError:
             continue
-    raise RuntimeError("同一秒内同名信件超过 999 封，换一秒再发")
+    raise RuntimeError("同一秒内同名信件过多，稍后再发")
 
 
 def digest(root, box, peek):

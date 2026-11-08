@@ -14,6 +14,17 @@
 
 这些文件是从一个真跑过十七天的库里抽出来的，例子里的 `<工作区根>`、`<DSH_HOME>`、`session-<id 前缀>` 都是占位符，照自己的环境替换。
 
+**一句话前提**：七份 SKILL.md 是**完整库**里的原文，里面 `..\工具\…`（体检、台账、索引那套脚本）、`00-规范\…`、`40-协作\_模板\…` 指的都不是这个发布包。发布包只有 `starter/mailbox_min.py` 这一件可执行物，最小等价做法：
+
+| SKILL 里的命令 | 只有发布包时用什么 |
+|---|---|
+| `python ..\工具\kb\kb_check.py`（全库体检） | `python starter/mailbox_min.py --selftest`（只验信箱能跑） |
+| `python ..\工具\mailbox\mailbox.py digest --for <箱>` | `python starter/mailbox_min.py digest --for <箱>` |
+| `python ..\工具\kb\read_state.py --me …`（认自己） | 在你自己的名册 md 里查自己那一行 |
+| `verify --card`／`ledger add` | 先按 SKILL 里的表格手工记（路径／字节／sha256），脚本等你把库长起来再加 |
+
+读法不变：把它们当规矩照做，遇到命令换成上面这一列即可。
+
 ## 用法
 
 - **有 skills 机制的宿主**（如 DSH）：把 `skills/` 整个目录丢进宿主的 skills 路径，它会按 `description` 自动召回。
