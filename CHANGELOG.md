@@ -8,6 +8,22 @@
 - `README.md` 内嵌一张与 `docs/工作原理.md` 同源的 Mermaid 全貌图。
 - 跨厂商实测：在 DSH 之外再跑一套（Claude Code／Codex 之一），把「换 harness」从设计意图变成实测结论。
 
+## [1.0.10] - 2026-11-08
+
+### Added
+
+- `starter/profile_backup.py`：回滚包工具（纯标准库）。`save` 把 profile 的三件（`package.json`／`pnpm-lock.yaml`／`cordis.patch.yml`）连同 `_manifest.sha256`、`_meta.json` 一起落盘；`verify` 逐文件比哈希自证；`restore` 先把现文件改名 `*.pre-restore-<时间戳>` 再写回，支持 `--dry-run` 演练；`selftest` 在临时目录里把存包／自证／演练／还原／篡改检测跑一遍。
+- `docs/L3-动手前必读.md` 新增「零、唯一不可跳过的一步：回滚包」并把它提为**闸 1**；四道闸的编号顺延（回滚包 → L0 → 隔离 home → 只走 `dsh plugin`）。
+
+### Changed
+
+- 四处 L3 警告统一改成「先做回滚包，再读这一页」：`README.md`（L3 表后、已知不足）、`docs/使用指南.md` §5、`docs/工作原理.md` §7.2、`docs/README.md` 索引；`starter/README.md` 从「五件东西」变「六件」，并加「回滚包」小节。
+- 三份文档版本号 → v1.0.10。
+
+### Why
+
+崩的时候宿主起不来、GUI 进不去，能救回来的只有**动手前**那份可自证的备份。提醒再详细也替代不了这一步。
+
 ## [1.0.9] - 2026-11-08
 
 ### Added

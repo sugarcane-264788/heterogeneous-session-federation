@@ -2,7 +2,7 @@
 
 这里只放"跑得动"的最小件。为什么这样做、为什么那样取舍，看 `docs/使用指南.md` §4（七件东西）与 `docs/工作原理.md` §3（七个文件面）；本目录不放长文，免得你还要挑哪些该读。
 
-## 五件东西
+## 六件东西
 
 > `card-template.md` 与 `closeout.sh` 里的 `verify`／收尾命令假设的是**完整库**（库里有 `工具/` 那套脚本）；只用最小件时，把那些命令换成 `mailbox_min.py --selftest`／`status` 这类包内能跑的东西，或先留空壳。
 
@@ -12,7 +12,19 @@
 | `card-template.md` | 改动前的计划卡模板（含 `- 文件：` 清单与 verify 块） |
 | `boot-template.md` | 新会话开工语（认自己→三分钟读完→拿任务） |
 | `closeout.sh` | 收尾七连的空壳，每步注释写着该填什么 |
+| `profile_backup.py` | 动 L3／插件之前的**回滚包**：`save`／`verify`／`restore --dry-run`；只在装插件前后用得上 |
 | 本文件 | 顺序与验收 |
+
+## 回滚包（只在你要动 L3／插件时用）
+
+```bash
+# 存一份能自证的回滚包（profile 的三件：package.json / pnpm-lock.yaml / cordis.patch.yml）
+python starter/profile_backup.py save --home "$DSH_HOME" --profile <profile> --out ./rollback-before-l3
+python starter/profile_backup.py verify --dir ./rollback-before-l3
+python starter/profile_backup.py restore --dir ./rollback-before-l3 --home "$DSH_HOME" --profile <profile> --dry-run
+```
+
+`verify` 打「回滚包自证通过」、`--dry-run` 打出来的目标路径对得上，才算有回滚能力。真出事时去掉 `--dry-run`，它会把现文件改名成 `*.pre-restore-<时间戳>` 再写回。
 
 ## 顺序（照着敲）
 
