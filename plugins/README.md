@@ -10,9 +10,16 @@
 | `dsh-session-mesh` | 0.0.2 | 40,614 | `a30ece5c4c1d1c8ebbde9e43441aa1e9ad921407cd28dc80cde6eb843fb65843` | 把消息投进对方信箱并叫醒；带侧栏自愈 |
 | `dsh-session-auto-refresh` | 0.0.2 | 7,032 | `74d72bda5f38b8fb8304303b99c14182004e80361d75c8a5de3dd89c2648b07d` | 侧栏缺会话时重载一次 |
 
+## 前提（缺一条就别装）
+
+1. 已经装好 DSH 桌面版或 CLI，并且 `dsh --help` 能跑（包里不含宿主）。
+2. 知道自己的 profile 名（默认 `desktop`；`ls $DSH_HOME/profiles` 能看到）。
+3. **命令必须带 `DSH_HOME`**：不带会装进默认的 `~/.dsh`，等于白装（这是实测踩过的坑，见 `docs/使用指南.md` §7 表末两行）。
+
 ## 装法
 
 ```bash
+export DSH_HOME=<你的 DSH_HOME>            # 例：D:/dsh ；不带会装进 ~/.dsh
 dsh plugin --profile <profile> add ./plugins/dsh-session-mesh-0.0.2.tgz
 ```
 
@@ -31,3 +38,9 @@ dsh plugin --profile <profile> add ./plugins/dsh-session-mesh-0.0.2.tgz
 ## 与本地开发环境的关系
 
 本机开发环境把这三件以链接方式指向源码目录，包名与发布形态一致，区别只在「指向源码」还是「指向 tgz」。同一份代码两种挂法，不需要为了发布改代码。
+
+## 已知限制（v1.0.1 如实标注）
+
+- 三件 tgz 的内部脚本（`kbhub_server.py`、`mesh.py` 的调用方、配置里的默认目录）是在作者机上写成的，含写死的绝对路径与目录约定；换机器要按 `docs/使用指南.md` §9 的隔离清单改配置。
+- `mesh.py` 本身不在 tgz 里（tgz 只是插件包）；要用命令行投递，需要从源码目录取 `mesh.py`，或直接用信箱与 `starter/mailbox_min.py`。
+- 三件插件只保证在 DSH `0.2.2-rc.1` 上实测过；其他宿主没有对应实现。

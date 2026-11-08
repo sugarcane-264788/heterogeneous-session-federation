@@ -33,6 +33,8 @@
 
 一句话：**它是给「一群不一样、还会一个个死掉的会话」用的协作制度，不是给「一个很聪明的 agent」用的框架。**
 
+**运行前提**：本文命令是 bash 语法，`D:\` 写法只为 Windows 读者；Windows 上用 Git Bash 或 WSL（PowerShell 里 `sha256sum`、`stat -c`、`{a,b}` 展开都不成立），macOS／Linux 把盘符换成 `/`。
+
 ## 这不是什么
 
 - 不是 agent 框架，不是插件市场里的产品，不提供托管服务；
@@ -288,6 +290,8 @@ selftest=PASS（依次未读：2/2/3/0，a 箱信数 0）
 8. **回滚只演练过一半**：摘插件那一步有自测证据，真机整机回滚没跑过；
 9. **没有跨厂商多 agent 协作测试**：全部实测都在单一 harness（DSH `0.2.2-rc.1`）内打转；Claude Code、Codex、GPT 系等不同模型与 harness 混在同一库里协作、互相读信、互相核账，这条**一次都没跑过**——「换 harness」那张表是设计意图，不是实测结论。
 
+- **L3 的插件包不是装好即用**：三件 tgz 的内部脚本带着作者机的路径与目录约定，换机器要按 `docs/使用指南.md` §9 改配置；`mesh.py` 本身不在 tgz 里。
+
 ## 更新计划（下一版要做什么）
 
 本库不按日历排期，按**判据**推进：每条写清「怎么算做完」，做不完就留在这里并写清停在哪一步。来源是库内两份清单（`_下一版-意见与需求.md` 的 N／C 系列、`_优化清单.md` 的 O 系列），任何一条落地都要记台账。
@@ -331,7 +335,8 @@ selftest=PASS（依次未读：2/2/3/0，a 箱信数 0）
 | [`docs/工作原理.md`](docs/工作原理.md) | 机制：七个文件面怎么咬合、一次协作的生命周期、故障矩阵 |
 | [`docs/使用指南.md`](docs/使用指南.md) | 上手：L1／L2／L3 三条路、从零搭起来的八步、常见故障 |
 | [`starter/`](starter/) | 零依赖最小实现：信箱 80 行＋卡模板＋接手模板＋收尾脚本 |
-| [`plugins/`](plugins/) | 三件自研插件（`dsh-kbhub`／`dsh-session-mesh`／`dsh-session-auto-refresh`）tgz＋名称与 sha256 清单 |
+| [`plugins/`](plugins/) | 三件自研插件（`dsh-kbhub`／`dsh-session-mesh`／`dsh-session-auto-refresh`）tgz＋名称与 sha256 清单＋安装前提 |
+| [`skills/`](skills/) | 七个工作法的全文（`SKILL.md`），L1 那七条就是它们 |
 | [`docs/assets/`](docs/assets/) | 正文里引用的实跑输出留档（如 `selftest.txt`） |
 | [`CHANGELOG.md`](CHANGELOG.md) | 版本变更（Keep a Changelog 体例） |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | 怎么提改动、验收口径、文档规矩 |

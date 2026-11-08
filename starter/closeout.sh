@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 说明：本脚本里的命令属于完整库（库内有 工具/kb/ 那套脚本）。发布包只给骨架：
+# 没有 工具/ 时，把各步换成 python starter/mailbox_min.py --selftest / status，或先注释掉。
 # 收尾七连（照顺序跑，别跳；每步后面写着"为什么这个位置"）
 # 用法：填好下面的变量，然后 bash closeout.sh
 set -u

@@ -1,8 +1,10 @@
 # starter：十五分钟能跑起来的最小一套
 
-这里只放"跑得动"的最小件。为什么这样做、为什么那样取舍，看上层 `01-设计全景.md` 与 `04-落地清单.md`；本目录不放长文，免得你还要挑哪些该读。
+这里只放"跑得动"的最小件。为什么这样做、为什么那样取舍，看 `docs/使用指南.md` §4（七件东西）与 `docs/工作原理.md` §3（七个文件面）；本目录不放长文，免得你还要挑哪些该读。
 
 ## 五件东西
+
+> `card-template.md` 与 `closeout.sh` 里的 `verify`／收尾命令假设的是**完整库**（库里有 `工具/` 那套脚本）；只用最小件时，把那些命令换成 `mailbox_min.py --selftest`／`status` 这类包内能跑的东西，或先留空壳。
 
 | 文件 | 干什么 |
 |---|---|
@@ -22,7 +24,7 @@ python mailbox_min.py --selftest
 # 2. 建你自己的箱：一个"人"一个箱，别共用
 python mailbox_min.py send --to worker --from boss --text "第一件事：把 X 的版本号核一遍"
 python mailbox_min.py status
-# 期望：boss 未读 0 / worker 未读 1
+# 期望：worker 未读 1 / 共 1（没有信的箱不列出）
 
 # 3. 以 worker 的身份收信（会推进游标）
 python mailbox_min.py digest --for worker
@@ -33,7 +35,8 @@ python mailbox_min.py status
 python mailbox_min.py send --to worker --from boss --text "第二件：不要动文件"
 python mailbox_min.py digest --for worker --peek
 python mailbox_min.py status
-# 期望：worker 未读 1 —— --peek 不推进
+# 期望：worker 未读 1 / 共 2 —— --peek 不推进游标
+# 注：同一秒连发两封时，后一封的文件名会加 -2 后缀，不覆盖（v1.0.1 修）
 
 # 5. 抄一张卡：把要改的文件列进 "本卡文件"，命令写进 verify 块
 #    然后照 closeout.sh 的七步走一遍（前几步现在可能是空的，先留痕）
@@ -49,5 +52,5 @@ python mailbox_min.py status
 ## 故意没做的
 
 - 锁与并发合并（两个人同时写信真会撞名字——真需要时加 `O_EXCL` 或时间戳加随机后缀）。
-- 播报/索引/台账/自检脚本——`04-落地清单.md` 里有取舍说明，先跑最小件再长。
+- 播报/索引/台账/自检脚本——取舍说明见 `docs/使用指南.md` §4 与 `docs/工作原理.md` §5，先跑最小件再长。
 - 中文/ASCII 命名规则、JSON 快照——那是第二周的事，别在第一天做。

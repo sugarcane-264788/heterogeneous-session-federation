@@ -8,6 +8,23 @@
 - `README.md` 内嵌一张与 `docs/工作原理.md` 同源的 Mermaid 全貌图。
 - 跨厂商实测：在 DSH 之外再跑一套（Claude Code／Codex 之一），把「换 harness」从设计意图变成实测结论。
 
+## [1.0.1] - 2026-11-08
+
+一次冷读复查（让一个只看发布包的人照 README 从零搭 L1）暴露的问题修复。
+
+### Added
+
+- `skills/`：七个工作法的全文（`session-handoff`／`card-ledger-workflow`／`layered-self-check`／`delegate-and-reclaim`／`human-machine-dual-track`／`proposal-gate`／`multi-session-workspace`），L1 七条改成带路径的引用；`skills/README.md` 给索引与两种用法（有 skills 机制的宿主／手抄进会话）。
+- `README.md`「运行前提」一行：命令是 bash 语法，Windows 需 Git Bash 或 WSL。
+- `plugins/README.md`「前提」与「已知限制」两节：必须带 `DSH_HOME`；三件 tgz 内部脚本带着作者机路径，`mesh.py` 不在包内。
+
+### Fixed
+
+- `starter/mailbox_min.py`：同一秒连发两封会撞同名并覆盖第一封（命令还打印「已投递」）。改成撞名加 `-2`／`-3` 序号、`open(..., "x")` 不覆盖——这正是「防丢信」要防的那件事，谢谢冷读者抓到。
+- `docs/工作原理.md` §8「最小验证」：原文七条命令全指库内 `工具/`（发布包不带），照做的人一条都跑不了。改成包内可跑的 `starter` 三条＋文件存在性清单，库内自检移到 §8.1 并注明前提。
+- `starter/README.md`：删掉指向包内不存在的 `01-设计全景.md`／`04-落地清单.md` 的引用；`status` 期望值改成实际输出（没有信的箱不列出）；补「同秒第二封加 `-2`」；`card-template.md`／`closeout.sh` 加「命令假设完整库」的说明。
+- `docs/使用指南.md`：`--as`／`repair` 在随包最小实现里没有，L1 验收改成「一箱一线＋`--peek` 不推进」的等价判法，并写明这两个开关属完整库。
+
 ## [1.0.0] - 2026-11-08
 
 首个公开版本。

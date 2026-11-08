@@ -54,11 +54,20 @@ def send(root, to, frm, text):
     d = os.path.join(root, "boxes", to)
     os.makedirs(d, exist_ok=True)
     ts = time.strftime("%Y%m%d-%H%M%S")
-    name = "%s-from-%s.md" % (ts, frm)
     body = "发件人：%s\n收件人：%s\n时间：%s\n\n%s\n" % (frm, to, ts, text.strip())
-    with open(os.path.join(d, name), "w", encoding="utf-8", newline="\n") as f:
-        f.write(body)
-    return name
+    # 同一秒连发两封会撞名：撞了就加序号，绝不覆盖已存在的信
+    for i in range(1, 1000):
+        name = "%s-from-%s.md" % (ts, frm) if i == 1 else "%s-from-%s-%d.md" % (ts, frm, i)
+        p = os.path.join(d, name)
+        if os.path.exists(p):
+            continue
+        try:
+            with open(p, "x", encoding="utf-8", newline="\n") as f:
+                f.write(body)
+            return name
+        except FileExistsError:
+            continue
+    raise RuntimeError("同一秒内同名信件超过 999 封，换一秒再发")
 
 
 def digest(root, box, peek):

@@ -1,5 +1,8 @@
 # 计划卡：<日期> <主题>
 
+> 说明：下面 verify 块里的命令（`..\工具\kb\verify.py` 等）属于**完整库**。发布包只给骨架：最小实现下用 `python starter/mailbox_min.py --selftest` 与 `status` 代替，或把这些行先留成注释。
+
+
 - 日期：YYYY-MM-DD
 - 负责会话：<角色>（`session-xxxxxxxx…`）
 - 授权：用户原话一句 + 时间；若是上一张卡顺延，写"哪张卡哪一条说过"。
