@@ -1,0 +1,24 @@
+# 运行产物
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 编辑器与系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 生成物（发布资产走 Release，不进仓库）
+dist/
+build/
+*.zip
+*.pdf
+*.html
+!docs/**/*.html
+
+# 本地演练
+/tmp/
+*.log
